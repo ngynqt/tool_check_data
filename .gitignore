@@ -1,0 +1,51 @@
+# ── Python ──────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Virtual environments ─────────────────────────────
+check_env/
+.venv/
+venv/
+env/
+ENV/
+
+# ── Flask / App ──────────────────────────────────────
+app/uploads/
+instance/
+.webassets-cache
+
+# ── Jupyter Notebook ─────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── Data files (sensitive / large) ───────────────────
+# Uncomment the lines below if you don't want to track data
+data /
+*.xlsx
+*.xls
+*.csv
+
+# ── OS ───────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE / Editor ─────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Logs & temp ──────────────────────────────────────
+*.log
+*.tmp
+*.bak

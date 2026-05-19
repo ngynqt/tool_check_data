@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Checking - EDA Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- Background -->
+  <div class="bg-mesh"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">📊</div>
+        <div class="logo-text">
+          <span class="logo-title">DataCheck</span>
+          <span class="logo-sub">EDA Dashboard</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-section-label">Dữ liệu</div>
+      <button class="nav-btn active" id="nav-upload" onclick="showSection('upload')">
+        <span class="nav-icon">📂</span>
+        <span>Upload Files</span>
+      </button>
+      <button class="nav-btn" id="nav-preview" onclick="showSection('preview')">
+        <span class="nav-icon">👁️</span>
+        <span>Xem dữ liệu</span>
+        <span class="badge" id="badge-rows" style="display:none"></span>
+      </button>
+      <button class="nav-btn" id="nav-summary" onclick="showSection('summary')">
+        <span class="nav-icon">📋</span>
+        <span>Thống kê cột</span>
+      </button>
+
+      <div class="nav-section-label" style="margin-top:16px">Kiểm tra & Xử lý</div>
+      <button class="nav-btn" id="nav-viz-all" onclick="showSection('viz-all')">
+        <span class="nav-icon">📈</span>
+        <span>Null - Tất cả cột</span>
+      </button>
+      <button class="nav-btn" id="nav-viz-key" onclick="showSection('viz-key')">
+        <span class="nav-icon">🔍</span>
+        <span>Null - Cột quan trọng</span>
+      </button>
+      <button class="nav-btn" id="nav-clean" onclick="showSection('clean')">
+        <span class="nav-icon">🧹</span>
+        <span>Xóa dòng null</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="dataset-status" id="dataset-status">
+        <div class="status-dot offline"></div>
+        <span>Chưa có dữ liệu</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <h1 class="page-title" id="page-title">Upload Files</h1>
+        <span class="page-subtitle" id="page-subtitle">Tải lên file dữ liệu để bắt đầu phân tích</span>
+      </div>
+      <div class="top-bar-right">
+        <button class="btn btn-ghost" id="reset-btn" onclick="resetDataset()" style="display:none">
+          <span>↩️</span> Reset về gốc
+        </button>
+        <div class="top-status" id="top-status"></div>
+      </div>
+    </header>
+
+    <!-- SECTION: Upload -->
+    <section class="section active" id="section-upload">
+      <div class="upload-zone" id="upload-zone">
+        <div class="upload-icon">☁️</div>
+        <h2 class="upload-title">Kéo thả file vào đây</h2>
+        <p class="upload-desc">Hỗ trợ: <strong>.xlsx, .xls, .csv, .xlsm, .xlsb</strong><br/>Có thể upload nhiều file cùng lúc — dữ liệu sẽ được gộp lại</p>
+        <label class="btn btn-primary upload-btn-label">
+          <span>📂 Chọn file</span>
+          <input type="file" id="file-input" multiple accept=".xlsx,.xls,.csv,.xlsm,.xlsb" onchange="handleFileSelect()" style="display:none" />
+        </label>
+      </div>
+
+      <div class="file-list" id="file-list" style="display:none">
+        <h3 class="section-subtitle">Files đã chọn:</h3>
+        <ul id="file-names"></ul>
+        <button class="btn btn-primary" onclick="uploadFiles()">
+          🚀 Tải lên & Phân tích
+        </button>
+      </div>
+
+      <div class="result-card" id="upload-result" style="display:none"></div>
+    </section>
+
+    <!-- SECTION: Preview -->
+    <section class="section" id="section-preview">
+      <div class="toolbar">
+        <button class="btn btn-secondary" onclick="loadDatasetInfo()">🔄 Làm mới</button>
+      </div>
+      <div class="table-wrapper" id="preview-table-wrapper">
+        <p class="placeholder-text">Upload file để xem dữ liệu</p>
+      </div>
+    </section>
+
+    <!-- SECTION: Summary -->
+    <section class="section" id="section-summary">
+      <div class="toolbar">
+        <button class="btn btn-secondary" onclick="loadSummary()">🔄 Làm mới</button>
+      </div>
+      <div id="summary-content">
+        <p class="placeholder-text">Upload file để xem thống kê</p>
+      </div>
+    </section>
+
+    <!-- SECTION: Visualize All -->
+    <section class="section" id="section-viz-all">
+      <div class="action-card">
+        <div class="action-card-body">
+          <h3>📊 Biểu đồ Null Values - Tất cả cột</h3>
+          <p>Trực quan hóa số lượng giá trị null trong tất cả các cột của dataset</p>
+          <button class="btn btn-primary" onclick="visualizeNullAll()">
+            📈 Vẽ biểu đồ
+          </button>
+        </div>
+      </div>
+      <div id="viz-all-result"></div>
+    </section>
+
+    <!-- SECTION: Visualize Key -->
+    <section class="section" id="section-viz-key">
+      <div class="action-card">
+        <div class="action-card-body">
+          <h3>🔍 Layer 1 - Kiểm tra cột quan trọng</h3>
+          <p>Kiểm tra null ở các cột: <strong>SĐT, Facebook, SĐT 2</strong></p>
+          <div class="col-chips">
+            <span class="chip chip-phone">📱 SĐT</span>
+            <span class="chip chip-phone2">📱 SĐT 2</span>
+            <span class="chip chip-fb">🔵 Facebook</span>
+          </div>
+          <button class="btn btn-primary" onclick="checkNullKeyCols()">
+            🔍 Kiểm tra
+          </button>
+        </div>
+      </div>
+      <div id="viz-key-result"></div>
+    </section>
+
+    <!-- SECTION: Clean -->
+    <section class="section" id="section-clean">
+      <div class="action-card warning-card">
+        <div class="action-card-body">
+          <h3>🧹 Xóa dòng Null</h3>
+          <p>Xóa các dòng có giá trị null ở <strong>cả 3 cột</strong>: SĐT, Facebook, SĐT 2</p>
+          <div class="warning-box">
+            ⚠️ Thao tác này sẽ thay đổi dataset hiện tại. Dùng nút "Reset về gốc" để hoàn tác.
+          </div>
+          <button class="btn btn-danger" onclick="evaluateNull()">
+            🗑️ Xóa các dòng null
+          </button>
+        </div>
+      </div>
+      <div id="clean-result"></div>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Spinner overlay -->
+  <div class="spinner-overlay" id="spinner" style="display:none">
+    <div class="spinner"></div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

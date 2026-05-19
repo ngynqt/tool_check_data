@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <header>
+    <div href="#" class="extension-name">FBnumber</div>
+    <div class="extension-setting-show-history">
+      <span data-i18n="showSearchHistory">Hiển thị lịch sử tìm</span>
+      <button id="show-history-switch-panel" class="switch switch-active">Switch</button>
+    </div>
+    <div class="extension-language">
+      <select id="language-selector">
+        <option value="en">English</option>
+        <option value="vi">Tiếng Việt</option>
+      </select>
+    </div>
+    <div class="extension-exit">
+      <a href="#" id="btn-close">
+        <img src="../images/error.svg">
+      </a>
+    </div>
+  </header>
+
+  <section class="message-container">
+    <div class="error-message alert">
+    </div>
+  </section>
+
+  <section class="loader-container">
+    <div class="loader"></div>
+  </section>
+
+  <section class="login-container">
+    <div class="content">
+      <a target="_blank" id="btn-login-google" href="#">
+        <img src="../images/google.svg">
+        <span data-i18n="loginWithGoogle">Đăng Nhập Với Google</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="data-container">
+    <div class="profile">
+      <table>
+        <tr>
+          <th style="width: 50px;height: 75px;">
+            <img id="profile-picture" src="../images/avatar.png" alt="Paris" width="50" height="50">
+          </th>
+          <th style=" border-right: none;">
+            <h3>
+              <span data-i18n="greeting" id="profile-greeting">Xin Chào,</span> <span id="profile-name">N/A</span>
+            </h3>
+            <h4 style="margin-top: -15px;">
+              <span data-i18n="account">Tài khoản:</span>
+              <span id="profile-email">N/A</span>
+            </h4>
+            <h4 style="margin-top: -15px;">
+              <span data-i18n="totalSearched">Tổng số đã tìm:</span>
+              <span id="avail-scans">N/A</span>
+            </h4>
+            <h4 style="margin-top: -15px;">
+              <span id="subscription-pack" data-i18n="package">Gói:</span>
+              <span id="subscription-pack-name">N/A</span>
+            </h4>
+            <h4 style="margin-top: -15px; margin-bottom: 5px;">
+              <span id="profile-type" data-i18n="expirationDate">Hạn sử dụng:</span>
+              <span id="profile-expired">N/A</span>
+              <span id="days-left"></span>
+            </h4>
+          </th>
+          <th style=" border-right: none; text-align: center;">
+            <div>
+              <button id="buy-now" data-i18n="donate">Đóng góp tiền</button>
+            </div>
+          </th>
+          <th style="text-align: center;">
+            <div class="extension-info">
+              <div class="current-version">
+                <span data-i18n="currentVersion">Phiên bản hiện tại:</span><b id="current-version-value">N/A</b>
+              </div>
+              <div class="new-version">
+                <span data-i18n="newVersion">Phiên bản mới:</span><b id="new-version-value">N/A</b>
+              </div>
+              <div class="update-version">
+                <button id="btn-update-version" data-i18n="downloadNow">Tải về ngay</button>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="manual-scan">
+      <input type="text" id="search-text" class="search-text" name="searchText" data-i18n-placeholder="searchPlaceholder" placeholder="Nhập link Facebook, Số điện thoại">
+      <button type="button" id="find-button" class="find-button" data-i18n="searchButton">Tìm kiếm</button>
+    </div>
+
+    <div class="scan-history-container">
+      <div class="scan-history">
+        <table id='last-scans' name='last-scans'>
+          <thead>
+            <tr>
+              <th class="scan-at" data-i18n="searchDate">Ngày tìm</th>
+              <th class="name" data-i18n="customerName">Tên KH</th>
+              <th class="number" data-i18n="phoneNumber">SĐT</th>
+              <th class="number2" data-i18n="phoneNumber2">SĐT 2</th>
+              <th class="number-of-scans" data-i18n="searchCount">Số lần tìm</th>
+              <th class="email" data-i18n="email">Email</th>
+              <th class="gender" data-i18n="gender">Giới tính</th>
+              <th class="birthday" data-i18n="birthday">Ngày sinh</th>
+              <th class="location" data-i18n="location">Location</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="actions">
+        <div id="export-csv" class="scan-action-btn scan-export-csv" data-i18n="exportCsv">Xuất file xem tiếp</div>
+        <div id="clear-scan" class="scan-action-btn scan-clear" data-i18n="clearHistory">Xoá lịch sử tìm</div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <div class="footer-copyright">©2023 Copyright:
+      <a href="https://fbnumber.com/" target="_blank">fbnumber.com</a>
+    </div>
+    <div class="extension-setting-save-comment-without-phone">
+      <span data-i18n="saveCommentWithoutPhone">Lưu comment không có số</span>
+      <button id="save-comment-without-phone-switch-panel" class="switch">Switch</button>
+    </div>
+    <div id="clear-cache" data-i18n="clearCache">Xóa cache</div>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
