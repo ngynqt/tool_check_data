@@ -1,0 +1,31 @@
+# --- Sensitive Credentials & Sessions (CRITICAL) ---
+.env
+browser_session/
+
+# --- Local Logs & Media Diagnostics ---
+logs/
+*.png
+*.log
+
+# --- Python Environment & Caches ---
+autochat_env/
+env/
+venv/
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# --- IDEs & Code Editors ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- OS-specific files ---
+.DS_Store
+Thumbs.db
+desktop.ini

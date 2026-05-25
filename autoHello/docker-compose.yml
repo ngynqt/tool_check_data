@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  fastgreet:
+    build: .
+    container_name: fastgreet_app
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount the persistent browser session so it can be shared and updated
+      - ./browser_session:/app/browser_session
+      # Mount the logs directory to monitor logs easily on the host
+      - ./logs:/app/logs
+    env_file:
+      - .env
+    restart: unless-stopped

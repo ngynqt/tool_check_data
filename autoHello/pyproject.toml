@@ -1,0 +1,9 @@
+[project]
+name = "fastgreet"
+version = "1.0.0"
+description = "Lightweight automated Facebook messaging pipeline"
+requires-python = ">=3.9"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
