@@ -1,1 +1,0 @@
-export const affConfig={REF:'undefined', PHONE: ''};
